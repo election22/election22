@@ -8,6 +8,7 @@ import {
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
+
 import { Hero } from "../components/layout/hero";
 import { MasterLayout } from "../components/layout/master";
 import { SideBySide } from "../components/layout/sideBySide";
@@ -22,7 +23,12 @@ export default function Home() {
           <HStack w="100%">
             <VStack align="flex-start" spacing={8}>
               <Heading size="3xl">Make your vote count</Heading>
-              <Text>The Australian 2022 Federal Election, simplified</Text>
+              <Text>
+                The Australian 2022 Federal Election,{" "}
+                <Text as="span" color="orange.500">
+                  simplified
+                </Text>
+              </Text>
             </VStack>
           </HStack>
         </Center>
