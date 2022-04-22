@@ -14,6 +14,8 @@ import {
   Spinner,
   Badge,
   Center,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { GroupBase, OptionBase, Select } from "chakra-react-select";
@@ -79,13 +81,16 @@ const PolicyViewer: React.FC = () => {
 
   return (
     <VStack align="stretch">
-      <Select<PolicyItem, false, GroupBase<PolicyItem>>
-        id="policy-select"
-        name="policy"
-        options={policies}
-        placeholder="Search for a policy..."
-        onChange={(value) => setPolicy(value)}
-      />
+      <FormControl>
+        <FormLabel>Select a policy to view:</FormLabel>
+        <Select<PolicyItem, false, GroupBase<PolicyItem>>
+          id="policy-select"
+          name="policy"
+          options={policies}
+          placeholder="Search for a policy..."
+          onChange={(value) => setPolicy(value)}
+        />
+      </FormControl>
       <Divider />
       {policy ? (
         <VStack spacing={4}>
