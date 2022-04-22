@@ -32,11 +32,21 @@ export default async function handler(req, res) {
       const value = item.text.trim().replace(")", "").split("(");
       return {
         name: value[0].trim(),
-        party: value[1].trim(),
+        party: normalisePartyName(value[1].trim()),
       };
     });
     res.status(200).json(candidates);
   } catch (e) {
     console.warn(e);
+  }
+}
+
+function normalisePartyName(name: string) {
+  switch (name) {
+    case "Liberal":
+    case "Nationals":
+      return "Liberal National";
+    default:
+      return name;
   }
 }

@@ -110,12 +110,13 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
     setIsLoading(true);
     try {
       getCandidatesForElectorate(electorate).then((result) => {
+        setIsLoading(false);
         setCandidates(result);
       });
     } catch (e) {
+      setIsLoading(false);
       console.warn(e);
     }
-    setIsLoading(false);
   }, [electorate, setCandidates]);
 
   if (!electorate) {
@@ -132,7 +133,11 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
   }
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Center h="100%">
+        <Spinner />
+      </Center>
+    );
   }
 
   return (

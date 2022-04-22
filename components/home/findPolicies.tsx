@@ -18,10 +18,10 @@ import {
 import axios from "axios";
 import { GroupBase, OptionBase, Select } from "chakra-react-select";
 import React, { useEffect } from "react";
+import { PolicySupportResult } from "../../services/theyVoteForYou";
 import { Card } from "../layout/card";
 import { SideBySide } from "../layout/sideBySide";
 import { useUserContext } from "../userContext";
-import { PolicySupportResult } from "../../pages/api/policySupport/[id]";
 
 interface PolicyItem extends OptionBase {
   label: string;
@@ -130,21 +130,33 @@ const PolicySupport: React.FC<{ policyId: number }> = ({ policyId }) => {
     );
   }
 
-  const results = candidates
-    .map((c) => {
-      const support = policySupport.find((ps) => ps.party === c.party);
-      return {
-        party: c.party,
-        support: support?.support || undefined,
-      };
-    })
-    .sort((a, b) => b.support - a.support);
+  const partiesWithSupportRecords = policySupport
+    .filter((s) => candidates.find((c) => c.party === s.party))
+    .sort((a, b) => {
+      if (b.support === undefined) {
+        return -1;
+      }
+      return b.support - a.support;
+    });
+
+  const partiesWithoutSupportRecords = candidates.filter(
+    (c) => !policySupport.find((s) => (s.party === c.party ? true : false))
+  );
 
   return (
     <VStack align="flex-start">
-      {results.map((i) => (
+      {partiesWithSupportRecords.map((i) => (
         <Text key={i.party}>
           <SupportBadge support={i.support} /> {i.party}
+        </Text>
+      ))}
+      <Divider />
+      {partiesWithoutSupportRecords.map((i) => (
+        <Text key={i.party}>
+          <Badge variant="outline" w="40px" colorScheme={"gray"}>
+            N/A
+          </Badge>{" "}
+          {i.party}
         </Text>
       ))}
     </VStack>
@@ -155,29 +167,29 @@ async function getPolicySupport(policyId: number) {
   const response = await axios.get<PolicySupportResult[]>(
     `api/policySupport/${policyId}`
   );
-  console.log(response.data);
   return response.data;
 }
 
 const SupportBadge: React.FC<{ support: number }> = ({ support }) => {
-  if (support === undefined) {
-    return (
-      <Badge colorScheme="gray" variant="outline">
-        N/A
-      </Badge>
-    );
-  }
+  const badgeColor = getBadgeColor(support);
+  return (
+    <Badge w="40px" colorScheme={badgeColor}>
+      {`${support}%`}
+    </Badge>
+  );
+};
 
+function getBadgeColor(support: number) {
   switch (true) {
     case support < 25:
-      return <Badge colorScheme={"red"}>{support}%</Badge>;
+      return "red";
     case support < 50:
-      return <Badge colorScheme={"orange"}>{support}%</Badge>;
+      return "orange";
     case support < 75:
-      return <Badge colorScheme={"yellow"}>{support}%</Badge>;
+      return "yellow";
     case support < 101:
-      return <Badge colorScheme={"green"}>{support}%</Badge>;
+      return "green";
     default:
-      return <Badge>{support}%</Badge>;
+      return "blue";
   }
-};
+}

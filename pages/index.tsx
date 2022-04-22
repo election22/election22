@@ -22,13 +22,15 @@ export default function Home() {
         <Center h="100%">
           <HStack w="100%">
             <VStack align="flex-start" spacing={8}>
-              <Heading size="3xl">Make your vote count</Heading>
-              <Text>
-                The Australian 2022 Federal Election,{" "}
-                <Text as="span" color="orange.500">
-                  simplified
+              <Heading size="4xl">Make your vote count</Heading>
+              <Heading size="lg">
+                <Text>
+                  The Australian 2022 Federal Election,{" "}
+                  <Text as="span" color="orange.500">
+                    simplified
+                  </Text>
                 </Text>
-              </Text>
+              </Heading>
             </VStack>
           </HStack>
         </Center>
