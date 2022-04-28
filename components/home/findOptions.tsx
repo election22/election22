@@ -18,7 +18,8 @@ import { Card } from "../layout/card";
 import { SideBySide } from "../layout/sideBySide";
 import { LocalitySearch } from "../localitySearch";
 import { useUserContext } from "../userContext";
-import { CandidateResult } from "../../pages/api/candidates";
+import { CandidatesResponse } from "../../pages/api/candidates";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 export const FindOptions: React.FC = () => {
   return (
@@ -72,12 +73,12 @@ export const FindOptions: React.FC = () => {
 };
 
 const PartySearch = () => {
-  const { setElectorate, electorate } = useUserContext();
+  const { setElectorate, electorate, electorateUrl } = useUserContext();
 
   return (
     <VStack spacing={6} align="stretch">
       <FormControl>
-        <FormLabel>Find your electorate</FormLabel>
+        <FormLabel>Find your electorate:</FormLabel>
         <LocalitySearch
           name="locality-search"
           placeholder="Enter your suburb or locality"
@@ -89,7 +90,15 @@ const PartySearch = () => {
 
       {electorate && (
         <Text fontSize={"large"} fontWeight={"semibold"}>
-          Your electorate is {electorate.toUpperCase()}
+          Your electorate is{" "}
+          {electorateUrl ? (
+            <Link href={electorateUrl} isExternal>
+              {electorate.toUpperCase()}
+              <ExternalLinkIcon mx="2px" pb="4px" />
+            </Link>
+          ) : (
+            electorate.toUpperCase()
+          )}
         </Text>
       )}
 
@@ -101,7 +110,7 @@ const PartySearch = () => {
 
 const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { candidates, setCandidates } = useUserContext();
+  const { candidates, setCandidates, setElectorateUrl } = useUserContext();
 
   useEffect(() => {
     if (!electorate) {
@@ -111,7 +120,8 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
     try {
       getCandidatesForElectorate(electorate).then((result) => {
         setIsLoading(false);
-        setCandidates(result);
+        setCandidates(result.candidates);
+        setElectorateUrl(result.electorateUrl);
       });
     } catch (e) {
       setIsLoading(false);
@@ -149,7 +159,15 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
         <Box key={candidate.name}>
           <Text as="span">{candidate.party}</Text>{" "}
           <Text color="gray.500" fontSize={"small"} as="span">
-            ({candidate.name})
+            (
+            {candidate.url ? (
+              <Link href={candidate.url} isExternal>
+                {candidate.name} <ExternalLinkIcon mx="2px" />
+              </Link>
+            ) : (
+              candidate.name
+            )}
+            )
           </Text>
         </Box>
       ))}
@@ -158,7 +176,7 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
 };
 
 async function getCandidatesForElectorate(electorate: string) {
-  const res = await axios.get<CandidateResult[]>(
+  const res = await axios.get<CandidatesResponse>(
     `api/candidates?electorate=${electorate}`
   );
   return res.data;

@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Heading,
   VStack,
@@ -72,7 +73,7 @@ export const FindPolicies: React.FC = () => {
 const PolicyViewer: React.FC = () => {
   const { policies: rawPolicies, electorate, candidates } = useUserContext();
   const policies: PolicyItem[] = rawPolicies.map((i) => ({
-    label: i.name.charAt(0).toUpperCase() + i.name.slice(1),
+    label: i.name,
     value: i.id,
     description: i.description,
   }));
@@ -96,7 +97,16 @@ const PolicyViewer: React.FC = () => {
         <VStack spacing={4}>
           <Card px={4} py={4}>
             <VStack align="flex-start">
-              <Text color="gray.600">{policy.description}.</Text>
+              <Heading size="md">{policy.label}</Heading>
+              <Text color="gray.600">{policy.description}</Text>
+              <Divider />
+              <Link
+                fontSize={"smaller"}
+                isExternal
+                href={`https://theyvoteforyou.org.au/policies/${policy.value}`}
+              >
+                View more details about this policy <ExternalLinkIcon />
+              </Link>
             </VStack>
           </Card>
           <Box minH="100px">

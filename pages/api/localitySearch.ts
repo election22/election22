@@ -28,16 +28,23 @@ export default async function handler(req, res) {
     const table = root.querySelector(
       "#ContentPlaceHolderBody_gridViewLocalities"
     );
+
+    const hasResults = table.querySelector(".headingLink");
+    if (!hasResults) {
+      return res.status(200).json([]);
+    }
+    console.log("results found...");
+
     const rows = table.querySelectorAll("tr:not(.headingLink)");
+
     const results: LocalityResult[] = rows.map((row) => ({
       name: row.querySelector("td:nth-child(2)")?.text,
       postcode: row.querySelector("td:nth-child(3)")?.text,
       electorate: row.querySelector("td:nth-child(4)")?.text,
     }));
-    console.log(results);
 
     res.status(200).json(results);
   } catch (e) {
-    console.warn(e);
+    res.status(500).send();
   }
 }

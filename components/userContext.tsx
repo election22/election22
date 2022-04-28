@@ -6,8 +6,10 @@ import { PropsWithChildrenOnly } from "../types";
 
 interface UserContextState {
   electorate?: string;
+  electorateUrl?: string;
   policies: PolicyResult[];
   setElectorate: (electorate: string) => void;
+  setElectorateUrl: (electorateUrl: string) => void;
   candidates: CandidateResult[];
   setCandidates: (parties: CandidateResult[]) => void;
 }
@@ -18,6 +20,7 @@ export const UserContextProvider: React.FC<PropsWithChildrenOnly> = ({
   children,
 }) => {
   const [electorate, setElectorate] = React.useState<string>("");
+  const [electorateUrl, setElectorateUrl] = React.useState<string>("");
   const [policies, setPolicies] = React.useState<PolicyResult[]>([]);
   const [candidates, setCandidates] = React.useState<CandidateResult[]>([]);
 
@@ -35,6 +38,8 @@ export const UserContextProvider: React.FC<PropsWithChildrenOnly> = ({
       value={{
         electorate,
         setElectorate,
+        electorateUrl,
+        setElectorateUrl,
         policies,
         candidates,
         setCandidates,
