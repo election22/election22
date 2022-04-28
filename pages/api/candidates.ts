@@ -47,9 +47,15 @@ export default async function handler(req, res) {
     console.log(candidateItems.length);
     const candidates: CandidateResult[] = candidateItems.map((item) => {
       const value = item.text.trim().replace(")", "").split("(");
+      const candidateName = value[0].trim();
+      const partyName = value[1].trim();
+
       return {
         name: value[0].trim(),
-        party: normalisePartyName(value[1].trim()),
+        party:
+          partyName === "Independent"
+            ? `${partyName} - ${candidateName}`
+            : normalisePartyName(partyName),
         url: getUrlFromCandidateItem(item),
       };
     });

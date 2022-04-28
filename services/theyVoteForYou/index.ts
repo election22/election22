@@ -44,9 +44,8 @@ function getSupportFromPolicy(policy: PolicyDetails): PolicySupportResult[] {
   // join One Nation
   mergeByPartyNames(obj, ["Pauline Hanson's One Nation Party"], "One Nation");
 
-  // remove independents
-  // TODO: display them if they're running in the electorate
-  delete obj["Independent"];
+  // process independents
+  processIndependents(obj);
 
   console.log("end parties:", Object.keys(obj));
 
@@ -91,4 +90,16 @@ function mergeByPartyNames(
     .forEach((name) => {
       delete policyObj[name];
     });
+}
+
+/**
+ * move independents to their own "party" and delete the "Independents" party
+ */
+function processIndependents(obj: PolicyObject) {
+  const independents = obj["Independent"];
+  independents.forEach((i) => {
+    const name = `${i.person.latest_member.name.first} ${i.person.latest_member.name.last}`;
+    obj[`Independent - ${name}`] = [i];
+  });
+  delete obj["Independent"];
 }
