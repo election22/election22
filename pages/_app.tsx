@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (TagManagerId) {
       console.log(`Init GTM with id ${TagManagerId}`);
-      TagManager.initialize({ id: TagManagerId });
+      TagManager.initialize({ gtmId: TagManagerId });
     } else {
       console.log(`No GTM ID found`);
     }
