@@ -5,6 +5,8 @@ import {
   GroupBase,
   ActionMeta,
 } from "chakra-react-select";
+import debounce from "lodash.debounce";
+import React from "react";
 import { LocalityResult } from "../pages/api/localitySearch";
 
 interface LocalityResultOption extends OptionBase {
@@ -35,21 +37,26 @@ export const LocalitySearch: React.FC<LocalitySearchProps> = ({
   onChange,
   placeholder,
 }) => {
+  const loadOptions = React.useCallback(
+    debounce((inputValue, callback) => {
+      search(inputValue).then((res) => {
+        const values = res.map((i) => ({
+          label: `${i.name} (${i.postcode})`,
+          value: i.name,
+          electorate: i.electorate,
+        }));
+        callback(values);
+      });
+    }, 500),
+    []
+  );
+
   return (
     <AsyncSelect<LocalityResultOption, false, GroupBase<LocalityResultOption>>
       name={name}
       placeholder={placeholder}
       onChange={onChange}
-      loadOptions={(inputValue, callback) => {
-        search(inputValue).then((res) => {
-          const values = res.map((i) => ({
-            label: `${i.name} (${i.postcode})`,
-            value: i.name,
-            electorate: i.electorate,
-          }));
-          callback(values);
-        });
-      }}
+      loadOptions={loadOptions}
     />
   );
 };
