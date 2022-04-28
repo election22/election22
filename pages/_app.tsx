@@ -5,14 +5,18 @@ import { theme } from "../theme";
 import TagManager from "react-gtm-module";
 
 const TagManagerId = process.env.NEXT_PUBLIC_GTM_ID;
+console.log(`OG GTM ID: ${TagManagerId}`);
 
 function MyApp({ Component, pageProps }) {
   // init in useEffect so it only runs client-side
   useEffect(() => {
     if (TagManagerId) {
+      console.log(`Init GTM with id ${TagManagerId}`);
       TagManager.initialize({ id: TagManagerId });
+    } else {
+      console.log(`No GTM ID found`);
     }
-  }, [TagManagerId]);
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
