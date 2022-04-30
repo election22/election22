@@ -88,7 +88,10 @@ const PolicyViewer: React.FC = () => {
           name="policy"
           options={policies}
           placeholder="Search for a policy..."
-          onChange={(value) => setPolicy(value)}
+          onChange={(value) => {
+            setPolicy(value);
+            logPolicySelect(value);
+          }}
         />
       </FormControl>
       <Divider />
@@ -209,5 +212,19 @@ function getBadgeColor(support: number) {
       return "green";
     default:
       return "blue";
+  }
+}
+
+function logPolicySelect(value: PolicyItem) {
+  if (value && "dataLayer" in window) {
+    window["dataLayer"].push({
+      event: "event",
+      eventProps: {
+        category: "policy",
+        action: "select",
+        id: value.value,
+        value: value.label,
+      },
+    });
   }
 }
