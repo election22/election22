@@ -36,7 +36,7 @@ export const FindOptions: React.FC = () => {
               alt="AEC logo"
               w="30px"
               borderRadius={"100%"}
-              src="https://www.aec.gov.au/_template/css/img/face-share-logo.jpg"
+              src="/aec-logo.jpg"
             />
             <Text fontSize={"small"}>
               Electorates provided by the{" "}
@@ -50,7 +50,7 @@ export const FindOptions: React.FC = () => {
               alt="tallyroom logo"
               w="30px"
               borderRadius={"100%"}
-              src="https://i.scdn.co/image/0650f27e7af6085be602b9672d5009f8c8bfc0e0"
+              src="/tallyroom-logo.jpg"
             />
             <Text fontSize={"small"}>
               Candidates provided by{" "}

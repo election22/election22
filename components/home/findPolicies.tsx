@@ -50,7 +50,7 @@ export const FindPolicies: React.FC = () => {
               alt="They Vote For You logo"
               w="30px"
               borderRadius={"100%"}
-              src="https://pbs.twimg.com/profile_images/524727105339154432/_PARXiYC_400x400.png"
+              src="tvfy-logo.png"
             />
             <Text fontSize={"small"}>
               Policies provided by{" "}
