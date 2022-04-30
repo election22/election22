@@ -20,6 +20,7 @@ import { LocalitySearch } from "../localitySearch";
 import { useUserContext } from "../userContext";
 import { CandidatesResponse } from "../../pages/api/candidates";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { EmptyMessage } from "../emptyMessage";
 
 export const FindOptions: React.FC = () => {
   return (
@@ -54,7 +55,7 @@ export const FindOptions: React.FC = () => {
             />
             <Text fontSize={"small"}>
               Candidates provided by{" "}
-              <Link href="https://www.tallyroom.com.au" target="_blank">
+              <Link href="https://www.tallyroom.com.au" isExternal>
                 The Tally Room
               </Link>
             </Text>
@@ -131,14 +132,11 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
 
   if (!electorate) {
     return (
-      <Center
-        border="1px dashed"
-        borderColor={"gray.300"}
-        borderRadius={4}
-        minH={200}
-      >
-        <Text color="gray.400">Select an electorate above</Text>
-      </Center>
+      <EmptyMessage>
+        <Text color="gray.400">
+          Select an electorate above to see your candidates
+        </Text>
+      </EmptyMessage>
     );
   }
 

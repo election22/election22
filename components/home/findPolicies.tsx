@@ -22,6 +22,7 @@ import axios from "axios";
 import { GroupBase, OptionBase, Select } from "chakra-react-select";
 import React, { useEffect } from "react";
 import { PolicySupportResult } from "../../services/theyVoteForYou";
+import { EmptyMessage } from "../emptyMessage";
 import { Card } from "../layout/card";
 import { SideBySide } from "../layout/sideBySide";
 import { useUserContext } from "../userContext";
@@ -114,7 +115,11 @@ const PolicyViewer: React.FC = () => {
           </Box>
         </VStack>
       ) : (
-        <Text>Select a policy above to see how the parties compare</Text>
+        <EmptyMessage>
+          <Text color="gray.400">
+            Select a policy above to see how the parties compare
+          </Text>
+        </EmptyMessage>
       )}
     </VStack>
   );
