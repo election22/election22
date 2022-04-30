@@ -30,7 +30,7 @@ export const FindOptions: React.FC = () => {
       left={
         <>
           <Heading>1. Find your options</Heading>
-          <Text>Find out which parties have candidates in your electorate</Text>
+          <Text>See which parties have candidates in your electorate.</Text>
           <HStack>
             <Image
               alt="AEC logo"
@@ -78,7 +78,7 @@ const PartySearch = () => {
   return (
     <VStack spacing={6} align="stretch">
       <FormControl>
-        <FormLabel>Find your electorate:</FormLabel>
+        <FormLabel>Select your suburb:</FormLabel>
         <LocalitySearch
           name="locality-search"
           placeholder="Enter your suburb or locality"

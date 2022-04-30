@@ -5,7 +5,7 @@ import { PropsWithChildrenOnly } from "../../types";
 export const MasterLayout: React.FC<PropsWithChildrenOnly> = ({ children }) => {
   return (
     <Flex minH="100%" direction="column">
-      <Header />
+      {/* <Header /> */}
       <Box flex="1 0 auto">{children}</Box>
       <Footer />
     </Flex>

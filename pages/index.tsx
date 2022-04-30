@@ -3,6 +3,7 @@ import {
   Center,
   Heading,
   HStack,
+  Link,
   ListItem,
   Text,
   UnorderedList,
@@ -38,30 +39,41 @@ export default function Home() {
 
       <SideBySide
         left={
-          <Heading>
-            Your local representative rebels less than{" "}
-            <Text as="span" color="orange.500">
-              0.48%
-            </Text>{" "}
-            of the time
-          </Heading>
+          <VStack align="flex-start">
+            <Heading>
+              Your local representative rebels less than{" "}
+              <Text as="span" color="orange.500">
+                <Link
+                  href="https://theyvoteforyou.org.au/people?sort=rebellions"
+                  isExternal
+                >
+                  2%
+                </Link>
+              </Text>{" "}
+              of the time
+            </Heading>
+          </VStack>
         }
         right={
           <>
             <Text>
-              Official Parliament records show that Australian politics is no
-              longer driven by representatives, but by party politics. Your
-              local representative votes almost entirely on their party&apos;s
-              agenda.
+              <Link
+                href="https://theyvoteforyou.org.au/people?sort=rebellions"
+                isExternal
+              >
+                {" "}
+                Official Parliament records
+              </Link>{" "}
+              show that Australian politics is no longer driven by
+              representatives, but by party politics. If your local
+              representative belongs to a party, they're voting almost entirely
+              along party lines.
             </Text>
             <Text>
-              Voters need to vote for the <b>party</b> that best represents
-              their values, not for individuals who <i>seem</i> to represent
-              their values.
+              Before you cast your vote on May 21, see how our politicians are{" "}
+              <b>actually</b> voting on the issues you care about - you may be
+              surprised.
             </Text>
-            <Button>
-              <Text>Learn more</Text>
-            </Button>
           </>
         }
       ></SideBySide>

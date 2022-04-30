@@ -42,8 +42,8 @@ export const FindPolicies: React.FC = () => {
         <>
           <Heading>2. See how they vote</Heading>
           <Text>
-            Search for policies that concern you and see how each party stacks
-            up
+            Search for policies that you care about, and see where each party
+            stands on them.
           </Text>
           <HStack>
             <Image
