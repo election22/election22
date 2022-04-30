@@ -1,5 +1,4 @@
 import {
-  Button,
   Center,
   Heading,
   HStack,
@@ -66,8 +65,8 @@ export default function Home() {
               </Link>{" "}
               show that Australian politics is no longer driven by
               representatives, but by party politics. If your local
-              representative belongs to a party, they're voting almost entirely
-              along party lines.
+              representative belongs to a party, they&apos;re voting almost
+              entirely along party lines.
             </Text>
             <Text>
               Before you cast your vote on May 21, see how our politicians are{" "}

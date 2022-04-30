@@ -127,7 +127,7 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
       setIsLoading(false);
       console.warn(e);
     }
-  }, [electorate, setCandidates]);
+  }, [electorate, setCandidates, setElectorateUrl]);
 
   if (!electorate) {
     return (
