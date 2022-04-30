@@ -97,9 +97,11 @@ function mergeByPartyNames(
  */
 function processIndependents(obj: PolicyObject) {
   const independents = obj["Independent"];
-  independents.forEach((i) => {
-    const name = `${i.person.latest_member.name.first} ${i.person.latest_member.name.last}`;
-    obj[`Independent - ${name}`] = [i];
-  });
-  delete obj["Independent"];
+  if (independents) {
+    independents.forEach((i) => {
+      const name = `${i.person.latest_member.name.first} ${i.person.latest_member.name.last}`;
+      obj[`Independent - ${name}`] = [i];
+    });
+    delete obj["Independent"];
+  }
 }
