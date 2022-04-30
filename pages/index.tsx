@@ -1,4 +1,5 @@
 import {
+  Button,
   Center,
   Heading,
   HStack,
@@ -14,10 +15,17 @@ import { MasterLayout } from "../components/layout/master";
 import { SideBySide } from "../components/layout/sideBySide";
 import { FindOptions } from "../components/home/findOptions";
 import { FindPolicies } from "../components/home/findPolicies";
+import Head from "next/head";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 
 export default function Home() {
   return (
     <MasterLayout>
+      <Head>
+        <title>Election22</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+
       <Hero bgColor={"gray.800"} color="white" h="100vh">
         <Center h="100%">
           <HStack w="100%">
@@ -31,12 +39,25 @@ export default function Home() {
                   </Text>
                 </Text>
               </Heading>
+              <Button
+                size="lg"
+                colorScheme={"orange"}
+                onClick={(event) => {
+                  event.preventDefault();
+                  document
+                    .querySelector("#introduction")
+                    .scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              >
+                Get started <ChevronRightIcon ml={1} />
+              </Button>
             </VStack>
           </HStack>
         </Center>
       </Hero>
 
       <SideBySide
+        id="introduction"
         left={
           <VStack align="flex-start">
             <Heading>
@@ -59,6 +80,8 @@ export default function Home() {
               <Link
                 href="https://theyvoteforyou.org.au/people?sort=rebellions"
                 isExternal
+                sx={{ textDecoration: "underline" }}
+                _hover={{ color: "orange.500" }}
               >
                 {" "}
                 Official Parliament records

@@ -1,16 +1,15 @@
 import { BoxProps, Grid, GridItem, VStack } from "@chakra-ui/react";
 import { Hero } from "./hero";
 
-interface SideBySideProps {
+interface SideBySideProps extends Omit<BoxProps, "left" | "right"> {
   left: React.ReactNode;
   right: React.ReactNode;
-  boxProps?: BoxProps;
 }
 
 export const SideBySide: React.FC<SideBySideProps> = ({
   left,
   right,
-  boxProps,
+  ...boxProps
 }) => {
   return (
     <Hero {...boxProps}>

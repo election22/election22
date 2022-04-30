@@ -25,9 +25,7 @@ import { EmptyMessage } from "../emptyMessage";
 export const FindOptions: React.FC = () => {
   return (
     <SideBySide
-      boxProps={{
-        bgColor: "gray.200",
-      }}
+      bgColor={"gray.200"}
       left={
         <>
           <Heading>1. Find your options</Heading>

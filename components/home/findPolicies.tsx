@@ -36,9 +36,7 @@ interface PolicyItem extends OptionBase {
 export const FindPolicies: React.FC = () => {
   return (
     <SideBySide
-      boxProps={{
-        bgColor: "orange.200",
-      }}
+      bgColor={"orange.200"}
       left={
         <>
           <Heading>2. See how they vote</Heading>
