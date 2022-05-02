@@ -104,7 +104,7 @@ export default function Home() {
 
       <FindPolicies />
 
-      <SideBySide
+      {/* <SideBySide
         left={
           <>
             <Heading>Not impressed with your options?</Heading>
@@ -129,7 +129,7 @@ export default function Home() {
             </UnorderedList>
           </>
         }
-      />
+      /> */}
     </MasterLayout>
   );
 }
