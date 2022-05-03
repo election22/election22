@@ -155,7 +155,7 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
         Candidates:
       </Text>
       {candidates.map((candidate) => (
-        <CandidateItem candidate={candidate} />
+        <CandidateItem key={candidate.name} candidate={candidate} />
       ))}
     </VStack>
   );
@@ -175,10 +175,13 @@ const CandidateItem: React.FC<{ candidate: CandidateResult }> = ({
       p={2}
       spacing={2}
       align="center"
-      key={candidate.name}
     >
       {linkDomain ? (
-        <Image src={`https://icon.horse/icon/${linkDomain}`} w={"40px"} />
+        <Image
+          alt={`Logo for ${candidate.name}`}
+          src={`https://icon.horse/icon/${linkDomain}`}
+          w={"40px"}
+        />
       ) : (
         <Box w="40px" h="40px" bgColor={"gray.600"} />
       )}
