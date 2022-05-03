@@ -9,6 +9,8 @@ export const Card: React.FC<BoxProps> = ({ children, ...props }) => {
       w="100%"
       px={{ base: 4, md: 8 }}
       py={{ base: 4, md: 8 }}
+      border="1px solid"
+      borderColor={"gray.200"}
       {...props}
     >
       {children}
