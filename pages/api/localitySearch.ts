@@ -11,13 +11,11 @@ const aecLocalityUrl =
   "https://electorate.aec.gov.au/LocalitySearchResults.aspx";
 
 export default async function handler(req, res) {
-  console.log("querying...");
   const query = req.query.locality
     .toLowerCase()
     .replace(/\s/g, "+")
     .replace("'", "");
 
-  console.log(query);
   try {
     const response = await axios.get(
       `${aecLocalityUrl}?filter=${query}&filterby=LocalityorSuburb`
@@ -33,9 +31,10 @@ export default async function handler(req, res) {
     if (!hasResults) {
       return res.status(200).json([]);
     }
-    console.log("results found...");
 
-    const rows = table.querySelectorAll("tr:not(.headingLink)");
+    const rows = table.querySelectorAll(
+      "> tr:not(.headingLink):not(.pagingLink)"
+    );
 
     const results: LocalityResult[] = rows.map((row) => ({
       name: row.querySelector("td:nth-child(2)")?.text,
