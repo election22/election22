@@ -4,9 +4,7 @@ import {
   Heading,
   HStack,
   Link,
-  ListItem,
   Text,
-  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
 
@@ -16,7 +14,7 @@ import { SideBySide } from "../components/layout/sideBySide";
 import { FindOptions } from "../components/home/findOptions";
 import { FindPolicies } from "../components/home/findPolicies";
 import Head from "next/head";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, CopyIcon, StarIcon } from "@chakra-ui/icons";
 
 export default function Home() {
   return (
@@ -49,7 +47,7 @@ export default function Home() {
                     .scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
               >
-                Get started <ChevronRightIcon ml={1} />
+                Get started <ChevronRightIcon ml={2} />
               </Button>
             </VStack>
           </HStack>
@@ -103,6 +101,35 @@ export default function Home() {
       <FindOptions />
 
       <FindPolicies />
+
+      <SideBySide
+        left={<Heading>Did you find this helpful?</Heading>}
+        right={
+          <VStack spacing={4} align="flex-start">
+            <Button
+              onClick={async () => {
+                await navigator.share({
+                  title: "Election22",
+                  text: `Check out Election22 - Information about the upcoming Australian federal election`,
+                  url: `${window.location.href}`,
+                });
+              }}
+              colorScheme={"orange"}
+            >
+              <CopyIcon mr={2} />
+              Share this page
+            </Button>
+            <Button
+              as="a"
+              href="https://www.buymeacoffee.com/election2022"
+              target="_blank"
+            >
+              <StarIcon mr={2} />
+              Buy me a coffee
+            </Button>
+          </VStack>
+        }
+      />
 
       {/* <SideBySide
         left={
