@@ -1,9 +1,12 @@
+import { Text } from "@chakra-ui/react";
 import axios from "axios";
 import {
   AsyncSelect,
   OptionBase,
   GroupBase,
   ActionMeta,
+  OptionProps,
+  components,
 } from "chakra-react-select";
 import debounce from "lodash.debounce";
 import React from "react";
@@ -22,6 +25,15 @@ async function search(locality) {
   const { data } = res;
   return data;
 }
+
+const Option: React.FC<OptionProps<LocalityResultOption>> = (props) => {
+  return (
+    <components.Option {...props}>
+      <Text>{props.label}</Text>
+      <Text fontSize={"small"}>{props.data.electorate}</Text>
+    </components.Option>
+  );
+};
 
 interface LocalitySearchProps {
   placeholder?: string;
@@ -57,6 +69,16 @@ export const LocalitySearch: React.FC<LocalitySearchProps> = ({
       placeholder={placeholder}
       onChange={onChange}
       loadOptions={loadOptions}
+      components={{ Option }}
+      noOptionsMessage={({ inputValue }) => {
+        if (inputValue) {
+          if (Number(inputValue)) {
+            return "Enter your suburb name, not your postcode";
+          }
+          return "No results found";
+        }
+        return "Enter a suburb or locality";
+      }}
     />
   );
 };

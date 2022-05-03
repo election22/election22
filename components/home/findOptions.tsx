@@ -132,7 +132,7 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
     return (
       <EmptyMessage>
         <Text color="gray.400">
-          Select an electorate above to see your candidates
+          Select your electorate above to see your candidates
         </Text>
       </EmptyMessage>
     );
