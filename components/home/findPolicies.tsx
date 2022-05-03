@@ -110,10 +110,17 @@ const PolicyViewer: React.FC = () => {
               </Link>
             </VStack>
           </Card>
-          <Divider />
-          <Box minH="100px" w="100%">
+          <VStack
+            minH="100px"
+            w="100%"
+            border="1px solid"
+            borderColor={"gray.300"}
+            borderRadius={4}
+            px={4}
+            py={4}
+          >
             <PolicySupport policyId={policy.value} />
-          </Box>
+          </VStack>
         </VStack>
       ) : (
         <EmptyMessage>
@@ -165,25 +172,23 @@ const PolicySupport: React.FC<{ policyId: number }> = ({ policyId }) => {
   );
 
   return (
-    <Card px={4} py={4}>
-      <VStack align="flex-start">
-        <Heading size="sm">Party support:</Heading>
-        {partiesWithSupportRecords.map((i) => (
-          <Text key={i.party}>
-            <SupportBadge support={i.support} /> {i.party}
-          </Text>
-        ))}
-        <Divider />
-        {partiesWithoutSupportRecords.map((i) => (
-          <Text key={i.party}>
-            <Badge variant="outline" w="40px" colorScheme={"gray"}>
-              N/A
-            </Badge>{" "}
-            {i.party}
-          </Text>
-        ))}
-      </VStack>
-    </Card>
+    <VStack w="100%" align="flex-start">
+      <Heading size="sm">Party support:</Heading>
+      {partiesWithSupportRecords.map((i) => (
+        <Text key={i.party}>
+          <SupportBadge support={i.support} /> {i.party}
+        </Text>
+      ))}
+      <Divider />
+      {partiesWithoutSupportRecords.map((i) => (
+        <Text key={i.party}>
+          <Badge variant="outline" w="40px" colorScheme={"gray"}>
+            N/A
+          </Badge>{" "}
+          {i.party}
+        </Text>
+      ))}
+    </VStack>
   );
 };
 

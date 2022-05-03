@@ -18,7 +18,10 @@ import { Card } from "../layout/card";
 import { SideBySide } from "../layout/sideBySide";
 import { LocalitySearch } from "../localitySearch";
 import { useUserContext } from "../userContext";
-import { CandidatesResponse } from "../../pages/api/candidates";
+import {
+  CandidateResult,
+  CandidatesResponse,
+} from "../../pages/api/candidates";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { EmptyMessage } from "../emptyMessage";
 
@@ -152,22 +155,46 @@ const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
         Candidates:
       </Text>
       {candidates.map((candidate) => (
-        <Box key={candidate.name}>
-          <Text as="span">{candidate.party}</Text>{" "}
-          <Text color="gray.500" fontSize={"small"} as="span">
-            (
-            {candidate.url ? (
-              <Link href={candidate.url} isExternal>
-                {candidate.name} <ExternalLinkIcon mx="2px" />
-              </Link>
-            ) : (
-              candidate.name
-            )}
-            )
-          </Text>
-        </Box>
+        <CandidateItem candidate={candidate} />
       ))}
     </VStack>
+  );
+};
+
+const CandidateItem: React.FC<{ candidate: CandidateResult }> = ({
+  candidate,
+}) => {
+  const linkDomain = candidate.url ? new URL(candidate.url).hostname : false;
+
+  return (
+    <HStack
+      w="100%"
+      border="1px solid"
+      borderColor={"gray.300"}
+      borderRadius={4}
+      p={2}
+      spacing={2}
+      align="center"
+      key={candidate.name}
+    >
+      {linkDomain ? (
+        <Image src={`https://icon.horse/icon/${linkDomain}`} w={"40px"} />
+      ) : (
+        <Box w="40px" h="40px" bgColor={"gray.600"} />
+      )}
+      <VStack spacing={0} align="flex-start">
+        <Text as="span">{candidate.party}</Text>{" "}
+        <Text color="gray.500" fontSize={"small"} as="span">
+          {candidate.url ? (
+            <Link href={candidate.url} isExternal>
+              {candidate.name} <ExternalLinkIcon mx="2px" />
+            </Link>
+          ) : (
+            candidate.name
+          )}
+        </Text>
+      </VStack>
+    </HStack>
   );
 };
 
