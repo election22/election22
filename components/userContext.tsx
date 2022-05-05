@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { PropsWithChildren, useContext, useEffect } from "react";
-import { CandidateResult } from "../pages/api/candidates";
+import React, { useContext, useEffect } from "react";
 import { PolicyResult } from "../pages/api/policies";
 import { PropsWithChildrenOnly } from "../types";
+import { ElectorateDetails } from "../types/electorate";
 
 interface UserContextState {
   electorate?: string;
-  electorateUrl?: string;
-  policies: PolicyResult[];
   setElectorate: (electorate: string) => void;
-  setElectorateUrl: (electorateUrl: string) => void;
-  candidates: CandidateResult[];
-  setCandidates: (parties: CandidateResult[]) => void;
+  electorateDetails: ElectorateDetails | undefined;
+  setElectorateDetails: (
+    electorateDetails: ElectorateDetails | undefined
+  ) => void;
+  policies: PolicyResult[];
 }
 
 const UserContext = React.createContext<UserContextState | null>(null);
@@ -20,9 +20,10 @@ export const UserContextProvider: React.FC<PropsWithChildrenOnly> = ({
   children,
 }) => {
   const [electorate, setElectorate] = React.useState<string>("");
-  const [electorateUrl, setElectorateUrl] = React.useState<string>("");
+  const [electorateDetails, setElectorateDetails] = React.useState<
+    ElectorateDetails | undefined
+  >();
   const [policies, setPolicies] = React.useState<PolicyResult[]>([]);
-  const [candidates, setCandidates] = React.useState<CandidateResult[]>([]);
 
   useEffect(() => {
     if (policies.length === 0) {
@@ -38,11 +39,9 @@ export const UserContextProvider: React.FC<PropsWithChildrenOnly> = ({
       value={{
         electorate,
         setElectorate,
-        electorateUrl,
-        setElectorateUrl,
+        electorateDetails,
+        setElectorateDetails,
         policies,
-        candidates,
-        setCandidates,
       }}
     >
       {children}

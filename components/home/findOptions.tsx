@@ -1,14 +1,10 @@
 import {
   Heading,
   VStack,
-  Divider,
-  Center,
   Text,
   Image,
   FormControl,
   FormLabel,
-  Spinner,
-  Box,
   HStack,
   Link,
 } from "@chakra-ui/react";
@@ -18,12 +14,8 @@ import { Card } from "../layout/card";
 import { SideBySide } from "../layout/sideBySide";
 import { LocalitySearch } from "../localitySearch";
 import { useUserContext } from "../userContext";
-import {
-  CandidateResult,
-  CandidatesResponse,
-} from "../../pages/api/candidates";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { EmptyMessage } from "../emptyMessage";
+import { ElectorateDetails } from "../../types/electorate";
+import { ElectorateInfo } from "../electorateDetails";
 
 export const FindOptions: React.FC = () => {
   return (
@@ -75,7 +67,19 @@ export const FindOptions: React.FC = () => {
 };
 
 const PartySearch = () => {
-  const { setElectorate, electorate, electorateUrl } = useUserContext();
+  const { setElectorate, electorate, electorateDetails, setElectorateDetails } =
+    useUserContext();
+  const [isLoadingElectorate, setIsLoadingElectorate] = React.useState(false);
+
+  useEffect(() => {
+    if (electorate) {
+      setIsLoadingElectorate(true);
+      getCandidatesForElectorate(electorate).then((details) => {
+        setElectorateDetails(details);
+        setIsLoadingElectorate(false);
+      });
+    }
+  }, [electorate]);
 
   return (
     <VStack spacing={6} align="stretch">
@@ -90,120 +94,18 @@ const PartySearch = () => {
         />
       </FormControl>
 
-      {electorate && (
-        <Text fontSize={"large"} fontWeight={"semibold"}>
-          Your electorate is{" "}
-          {electorateUrl ? (
-            <Link href={electorateUrl} isExternal>
-              {electorate.toUpperCase()}
-              <ExternalLinkIcon mx="2px" pb="4px" />
-            </Link>
-          ) : (
-            electorate.toUpperCase()
-          )}
-        </Text>
-      )}
-
-      <Divider />
-      <CandidatesList electorate={electorate} />
+      <ElectorateInfo
+        name={electorate}
+        electorateDetails={electorateDetails}
+        isLoading={isLoadingElectorate}
+      />
     </VStack>
-  );
-};
-
-const CandidatesList: React.FC<{ electorate: string }> = ({ electorate }) => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const { candidates, setCandidates, setElectorateUrl } = useUserContext();
-
-  useEffect(() => {
-    if (!electorate) {
-      return;
-    }
-    setIsLoading(true);
-    try {
-      getCandidatesForElectorate(electorate).then((result) => {
-        setIsLoading(false);
-        setCandidates(result.candidates);
-        setElectorateUrl(result.electorateUrl);
-      });
-    } catch (e) {
-      setIsLoading(false);
-      console.warn(e);
-    }
-  }, [electorate, setCandidates, setElectorateUrl]);
-
-  if (!electorate) {
-    return (
-      <EmptyMessage>
-        <Text color="gray.400">
-          Select your electorate above to see your candidates
-        </Text>
-      </EmptyMessage>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <Center h="100%">
-        <Spinner />
-      </Center>
-    );
-  }
-
-  return (
-    <VStack align="flex-start">
-      <Text fontWeight={"semibold"} as="u">
-        Candidates:
-      </Text>
-      {candidates.map((candidate) => (
-        <CandidateItem key={candidate.name} candidate={candidate} />
-      ))}
-    </VStack>
-  );
-};
-
-const CandidateItem: React.FC<{ candidate: CandidateResult }> = ({
-  candidate,
-}) => {
-  const linkDomain = candidate.url ? new URL(candidate.url).hostname : false;
-
-  return (
-    <HStack
-      w="100%"
-      border="1px solid"
-      borderColor={"gray.300"}
-      borderRadius={4}
-      p={2}
-      spacing={2}
-      align="center"
-    >
-      {linkDomain ? (
-        <Image
-          alt={`Logo for ${candidate.name}`}
-          src={`https://icon.horse/icon/${linkDomain}`}
-          w={"40px"}
-        />
-      ) : (
-        <Box w="40px" h="40px" bgColor={"gray.600"} />
-      )}
-      <VStack spacing={0} align="flex-start">
-        <Text as="span">{candidate.party}</Text>{" "}
-        <Text color="gray.500" fontSize={"small"} as="span">
-          {candidate.url ? (
-            <Link href={candidate.url} isExternal>
-              {candidate.name} <ExternalLinkIcon mx="2px" />
-            </Link>
-          ) : (
-            candidate.name
-          )}
-        </Text>
-      </VStack>
-    </HStack>
   );
 };
 
 async function getCandidatesForElectorate(electorate: string) {
-  const res = await axios.get<CandidatesResponse>(
-    `api/candidates?electorate=${electorate}`
+  const res = await axios.get<ElectorateDetails>(
+    `api/electorate/${electorate}`
   );
   return res.data;
 }

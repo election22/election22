@@ -2,15 +2,10 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Heading,
   VStack,
-  Input,
   HStack,
   Divider,
-  Wrap,
-  Tag,
   Text,
   Image,
-  Button,
-  Box,
   Link,
   Spinner,
   Badge,
@@ -70,7 +65,7 @@ export const FindPolicies: React.FC = () => {
 };
 
 const PolicyViewer: React.FC = () => {
-  const { policies: rawPolicies, electorate, candidates } = useUserContext();
+  const { policies: rawPolicies } = useUserContext();
   const policies: PolicyItem[] = rawPolicies.map((i) => ({
     label: i.name,
     value: i.id,
@@ -134,7 +129,9 @@ const PolicyViewer: React.FC = () => {
 };
 
 const PolicySupport: React.FC<{ policyId: number }> = ({ policyId }) => {
-  const { candidates } = useUserContext();
+  const {
+    electorateDetails: { candidates },
+  } = useUserContext();
   const [isLoading, setIsLoading] = React.useState(false);
   const [policySupport, setPolicySupport] = React.useState<
     PolicySupportResult[]
