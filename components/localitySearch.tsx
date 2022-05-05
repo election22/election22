@@ -10,7 +10,7 @@ import {
 } from "chakra-react-select";
 import debounce from "lodash.debounce";
 import React from "react";
-import { LocalityResult } from "../pages/api/localitySearch";
+import { LocalityResult } from "../services/aec/types";
 
 interface LocalityResultOption extends OptionBase {
   label: string;
@@ -72,9 +72,6 @@ export const LocalitySearch: React.FC<LocalitySearchProps> = ({
       components={{ Option }}
       noOptionsMessage={({ inputValue }) => {
         if (inputValue) {
-          if (Number(inputValue)) {
-            return "Enter your suburb name, not your postcode";
-          }
           return "No results found";
         }
         return "Enter a suburb or locality";
