@@ -1,51 +1,29 @@
-import axios from "axios";
-import { parse } from "node-html-parser";
 import { LocalityResult } from "./types";
-
-const aecLocalityUrl =
-  "https://electorate.aec.gov.au/LocalitySearchResults.aspx";
+import localities from "./localities.json";
 
 /**
- * Searches the AEC for electorates matching the given Suburb, Locality or Postcode.
+ * Searches the AEC dataset for electorates matching the given Suburb, Locality or Postcode.
  */
 export async function findElectorate(query: string) {
-  const sanitizedQuery = query
-    .toLowerCase()
-    .replace(/\s/g, "+")
-    .replace("'", "");
+  const sanitizedQuery = query.toUpperCase().replace(/[^A-Z]/g, "");
 
   const isPostcode = !!Number(sanitizedQuery);
 
-  if (isPostcode && sanitizedQuery.length !== 4) {
-    return [];
+  if (isPostcode) {
+    // require full postcode before doing search
+    if (sanitizedQuery.length !== 4) {
+      return [];
+    }
+    return findByPostcode(sanitizedQuery);
   }
+  return findByName(sanitizedQuery);
+}
 
-  const response = await axios.get(
-    `${aecLocalityUrl}?filter=${sanitizedQuery}&filterby=${
-      isPostcode ? "Postcode" : "LocalityorSuburb"
-    }`
-  );
-
-  const root = parse(response.data);
-
-  const table = root.querySelector(
-    "#ContentPlaceHolderBody_gridViewLocalities"
-  );
-
-  const hasResults = table.querySelector(".headingLink");
-  if (!hasResults) {
-    return [];
-  }
-
-  const rows = table.querySelectorAll(
-    "> tr:not(.headingLink):not(.pagingLink)"
-  );
-
-  const results: LocalityResult[] = rows.map((row) => ({
-    name: row.querySelector("td:nth-child(2)")?.text,
-    postcode: row.querySelector("td:nth-child(3)")?.text,
-    electorate: row.querySelector("td:nth-child(4)")?.text,
-  }));
-
+function findByName(name: string): LocalityResult[] {
+  const results = localities.filter((i) => i.index.startsWith(name));
   return results;
+}
+
+function findByPostcode(postcode: string): LocalityResult[] {
+  return localities.filter((i) => i.postcode === postcode);
 }
