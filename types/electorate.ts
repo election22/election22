@@ -1,8 +1,8 @@
 export interface CandidateResult {
   name: string;
   party: string;
-  url?: string;
-  isCurrent?: true;
+  url?: string | undefined;
+  isCurrent?: boolean | undefined;
 }
 
 export interface ElectorateDetails {
