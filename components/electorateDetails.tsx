@@ -8,11 +8,11 @@ import {
   Spinner,
   Text,
   VStack,
-  Image,
   Divider,
   Badge,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import Image from "next/image";
 
 interface ElectorateInfoProps {
   name: string;
@@ -99,8 +99,9 @@ const CandidateItem: React.FC<{
         <Image
           alt={`Logo for ${candidate.name}`}
           src={`https://icon.horse/icon/${linkDomain}`}
-          w={"40px"}
-          borderRadius={2}
+          width={"40px"}
+          height="40px"
+          style={{ borderRadius: "8px" }}
         />
       ) : (
         <Box w="40px" h="40px" borderRadius={2} bgColor={"gray.600"} />
