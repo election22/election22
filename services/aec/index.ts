@@ -5,17 +5,17 @@ import localities from "./localities.json";
  * Searches the AEC dataset for electorates matching the given Suburb, Locality or Postcode.
  */
 export async function findElectorate(query: string) {
-  const sanitizedQuery = query.toUpperCase().replace(/[^A-Z]/g, "");
-
-  const isPostcode = !!Number(sanitizedQuery);
+  const isPostcode = !!Number(query);
 
   if (isPostcode) {
     // require full postcode before doing search
-    if (sanitizedQuery.length !== 4) {
+    if (query.length !== 4) {
       return [];
     }
-    return findByPostcode(sanitizedQuery);
+    return findByPostcode(query.toString());
   }
+
+  const sanitizedQuery = query.toUpperCase().replace(/[^A-Z]/g, "");
   return findByName(sanitizedQuery);
 }
 
