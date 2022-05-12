@@ -65,7 +65,7 @@ export const FindPolicies: React.FC = () => {
 };
 
 const PolicyViewer: React.FC = () => {
-  const { policies: rawPolicies } = useUserContext();
+  const { policies: rawPolicies, electorateDetails } = useUserContext();
   const policies: PolicyItem[] = rawPolicies.map((i) => ({
     label: i.name,
     value: i.id,
@@ -113,8 +113,17 @@ const PolicyViewer: React.FC = () => {
             borderRadius={4}
             px={4}
             py={4}
+            align="stretch"
           >
-            <PolicySupport policyId={policy.value} />
+            {electorateDetails ? (
+              <PolicySupport policyId={policy.value} />
+            ) : (
+              <EmptyMessage>
+                <Text color="gray.400">
+                  Select your electorate to view results
+                </Text>
+              </EmptyMessage>
+            )}
           </VStack>
         </VStack>
       ) : (
