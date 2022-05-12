@@ -1,4 +1,12 @@
-import { Box, Center, Container, Flex, HStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Container,
+  Flex,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { PropsWithChildrenOnly } from "../../types";
 
@@ -36,7 +44,15 @@ const Footer: React.FC = () => {
   return (
     <Center bgColor={"gray.700"} color="white" as="footer" h="250px">
       <Container maxW={"container.lg"}>
-        <Text size="lg">Made with ❤️ in Brisbane, Australia</Text>
+        <VStack align={"flex-start"}>
+          <Text fontSize="xl">
+            Contact:{" "}
+            <a href="mailto:election22@outlook.com.au">
+              election22@outlook.com.au
+            </a>
+          </Text>
+          <Text fontSize="lg">Made with ❤️ in Brisbane, Australia</Text>
+        </VStack>
       </Container>
     </Center>
   );
